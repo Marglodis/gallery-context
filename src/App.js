@@ -1,25 +1,56 @@
-import logo from './logo.svg';
-import './App.css';
+import "./styles.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useState, useEffect } from "react";
+import Navbar from "./components/Navbar";
+import Home from "./views/Home";
+import Favoritos from "./views/Favoritos";
+import NotFound from "./views/NotFound";
+import Footer from "./components/Footer";
 
-function App() {
+import MyContext from "./Context";
+
+export default function App() {
+  const [fotos, setFotos] = useState([]);
+  const urlAPI = "/fotos.json";
+
+  const onLike = (id) => {
+    const resultsLike = fotos.map((foto) => {
+      return foto.id === Number(id)
+        ? { ...foto, liked: !foto.liked }
+        : { ...foto };
+    });
+    setFotos(resultsLike);
+  };
+
+  const likedPhotos = fotos.filter((elem) => {
+    return elem.liked === true;
+  });
+
+  const consultaAPI = async (url) => {
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      setFotos(data.photos);
+    } catch (e) {
+      alert("Algo anda mal con la solicitud.", e.message);
+      return null;
+    }
+  };
+  useEffect(() => {
+    consultaAPI(urlAPI);
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <MyContext.Provider value={{ fotos, onLike, likedPhotos }}>
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/favoritos" element={<Favoritos />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+        <Footer />
+      </BrowserRouter>
+    </MyContext.Provider>
   );
 }
-
-export default App;

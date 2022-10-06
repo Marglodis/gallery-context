@@ -1,0 +1,43 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Oswald", sans-serif;
+}
+
+html {
+  min-height: 100%;
+  position: relative;
+}
+body {
+  margin: 0;
+  margin-bottom: 40px;
+}
+
+#Home{
+  text-align: center;
+}
+
+.notfound {
+  text-align: center;
+ padding: 20px;
+}
+
+.notfound img{
+  max-width: 300px;
+  min-height: 300px;
+  padding: 25px;
+  margin: auto;
+}
+  footer {
+    padding: 10px;
+    text-align: center;
+    background: #159957;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #155799, #159957);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #155799, #159957); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    color: white;
+  }
